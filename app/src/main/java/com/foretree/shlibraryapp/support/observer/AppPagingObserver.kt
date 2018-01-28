@@ -7,6 +7,7 @@ import com.dyhdyh.widget.swiperefresh.loadmore.RecyclerLoadMoreHelper
 import com.dyhdyh.widget.swiperefresh.paging.PagingWrapper
 import com.foretree.shlibraryapp.Constants
 import com.foretree.shlibraryapp.base.delegate.AppLoadingViewDelegateImpl
+import com.foretree.shlibraryapp.base.delegate.AppPagingDelegateImpl
 import com.foretree.shlibraryapp.base.delegate.LoadingDelegate
 import com.foretree.shlibraryapp.ui.adapter.AbstractRecyclerAdapter
 import com.foretree.shlibraryapp.widgets.refresh.SmartRecyclerView
@@ -49,18 +50,27 @@ abstract class AppPagingObserver<T> : LoadingBarObserver<T> {
     }
 
     override fun createDelegate(): LoadingDelegate {
-        return AppLoadingViewDelegateImpl(mParent)
+        return object : AppPagingDelegateImpl(getParent(), mRefreshLayout, mLoadMoreHelper, mLoadingDelegate) {
+
+            override fun getEmptyView(): View {
+                return this.getEmptyView()
+            }
+
+            override fun clickError() {
+                onClickError()
+            }
+        }
     }
 
-    open fun getPageSize(): Int {
+    private fun getPageSize(): Int {
         return Constants.DEFAULT_PAGE_COUNT
     }
 
-    open fun getPageCount(): Int {
+    open fun getPageCount(response: T): Int {
         return this.getPageSize()
     }
 
-    fun getStartPage(): Int {
+    private fun getStartPage(): Int {
         return START_PAGE
     }
 
@@ -85,7 +95,7 @@ abstract class AppPagingObserver<T> : LoadingBarObserver<T> {
         //第一页个数不足一页的个数
         if (page == startPage && responseList.isEmpty()) {
             mLoadMoreHelper.loadMoreFooter.state = LoadMoreFooter.State.GONE
-        } else if (getPageCount() > responseList.size) {
+        } else if (getPageCount(t) > responseList.size) {
             mLoadMoreHelper.loadMoreFooter.state = LoadMoreFooter.State.THE_END
         } else {
             mLoadMoreHelper.loadMoreFooter.state = LoadMoreFooter.State.LOADING
@@ -96,7 +106,7 @@ abstract class AppPagingObserver<T> : LoadingBarObserver<T> {
 
     abstract fun onRefresh(response: T)
 
-    private fun onLoadMore(response: T, adapter: RecyclerView.Adapter<*>, responseList: List<Nothing>) {
+    fun onLoadMore(response: T, adapter: RecyclerView.Adapter<*>, responseList: List<Nothing>) {
         val innerAdapter = mLoadMoreHelper.innerAdapter
         if (innerAdapter is AbstractRecyclerAdapter<*, *>) {
             innerAdapter.addItemAll(responseList)

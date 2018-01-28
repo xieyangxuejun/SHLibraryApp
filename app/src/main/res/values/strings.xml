@@ -3,4 +3,6 @@
     <string name="label_about_me">关于我</string>
     <string name="POPUP_TITLE_LOADING">加载中</string>
     <string name="label_general_empty">什么也没有-.-</string>
+    <string name="label_book_publish_message_s">%s-%s-%s</string>
+    <string name="message_fail_loading_error">加载失败</string>
 </resources>

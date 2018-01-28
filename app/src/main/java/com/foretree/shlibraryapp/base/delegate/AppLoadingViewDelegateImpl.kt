@@ -7,7 +7,7 @@ import com.foretree.shlibraryapp.support.loading.AppLoadingFactory
 /**
  * Created by silen on 28/01/2018.
  */
-class AppLoadingViewDelegateImpl(parent: View) : LoadingDelegateImpl(parent) {
+open class AppLoadingViewDelegateImpl(parent: View) : LoadingDelegateImpl(parent) {
 
     override fun show() {
         LoadingBar.make(mParent, AppLoadingFactory.create(getDefaultLoadingMessage())).show()
@@ -17,15 +17,15 @@ class AppLoadingViewDelegateImpl(parent: View) : LoadingDelegateImpl(parent) {
 
     }
 
-    fun getDefaultLoadingMessage(): CharSequence {
+    open fun getDefaultLoadingMessage(): CharSequence {
         return ""
     }
 
-    fun clickError() {
+    open fun clickError() {
 
     }
 
-    fun showEmptyDataError() {
+    open fun showEmptyDataError() {
 
     }
 }

@@ -6,4 +6,8 @@
     <color name="colorGradient">#1e40ffbf</color>
     <color name="colorF7">#F7F7F7</color>
     <color name="colorDivider">#EAEAEA</color>
+    <color name="colorTransparent">#0000</color>
+    <color name="colorText">#999999</color>
+    <color name="colorHint">#C3C3C3</color>
+    <color name="bg_search">#f7f0f1</color>
 </resources>

@@ -24,6 +24,10 @@ class App: Application() {
         fun getContext(): Context {
             return instance.baseContext
         }
+
+        fun getBaseScale(): Float {
+            return getContext().resources.displayMetrics.widthPixels / (getContext().resources.displayMetrics.density * 360)
+        }
     }
 
     override fun onCreate() {
