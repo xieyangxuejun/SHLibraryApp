@@ -71,12 +71,14 @@ class MainActivity : BaseCompatActivity(),
     }
 
 
-    override fun onQueryTextSubmit(query: String?): Boolean {
-        if (query != null && !query.isEmpty()) {
+    override fun onQueryTextSubmit(query: String): Boolean {
+        if (query != null ) {
             rv_list.resetPage()
             loadSearchList(query)
             return true
         }
+
+//        loadSearchList("android学习")
         return false
     }
 
