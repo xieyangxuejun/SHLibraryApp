@@ -1,8 +1,9 @@
-package com.foretree.shlibraryapp.base
+package com.foretree.shlibraryapp.base.delegate
 
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import com.foretree.shlibraryapp.base.delegate.IActivityDelegate
 
 /**
  * Created by silen on 20/01/2018.

@@ -1,4 +1,4 @@
-package com.foretree.shlibraryapp.base
+package com.foretree.shlibraryapp.base.delegate
 
 import android.support.annotation.ColorRes
 

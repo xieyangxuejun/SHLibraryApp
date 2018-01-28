@@ -33,14 +33,14 @@ public class SearchRequest extends BaseXmlRequest<SearchRequest.RequestBody> {
         @Element(name = "KeyWord")
         private String keyWord;
         @Element(name = "PageSize")
-        private String pageSize;
+        private int pageSize;
         @Element(name = "StartRow")
-        private String startRow;
+        private int startRow;
 
         public RequestModel(@Element(name = "Type") String type,
                             @Element(name = "KeyWord") String keyWord,
-                            @Element(name = "PageSize") String pageSize,
-                            @Element(name = "StartRow") String startRow) {
+                            @Element(name = "PageSize") int pageSize,
+                            @Element(name = "StartRow") int startRow) {
             this.type = type;
             this.keyWord = keyWord;
             this.pageSize = pageSize;
@@ -55,11 +55,11 @@ public class SearchRequest extends BaseXmlRequest<SearchRequest.RequestBody> {
             return keyWord;
         }
 
-        public String getPageSize() {
+        public int getPageSize() {
             return pageSize;
         }
 
-        public String getStartRow() {
+        public int getStartRow() {
             return startRow;
         }
     }

@@ -4,4 +4,6 @@
     <color name="colorPrimaryDark">#000</color>
     <color name="colorAccent">#40ffbf</color>
     <color name="colorGradient">#1e40ffbf</color>
+    <color name="colorF7">#F7F7F7</color>
+    <color name="colorDivider">#EAEAEA</color>
 </resources>

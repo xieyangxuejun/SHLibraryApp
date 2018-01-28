@@ -3,6 +3,8 @@ package com.foretree.shlibraryapp.base
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import com.foretree.shlibraryapp.base.delegate.IActivityDelegate
+import com.foretree.shlibraryapp.base.delegate.IActivityDelegateImpl
 
 /**
  * Activity代理类
@@ -56,7 +58,7 @@ abstract class AppDelegateActivity: AppCompatActivity() {
         get().onActivityResult(requestCode, resultCode, data)
     }
 
-    private fun get(): IActivityDelegate{
+    private fun get(): IActivityDelegate {
         val lazyOf = lazyOf(IActivityDelegateImpl(this))
         return lazyOf.value
     }

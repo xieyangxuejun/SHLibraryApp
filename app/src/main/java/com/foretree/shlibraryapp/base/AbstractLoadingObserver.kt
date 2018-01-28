@@ -35,7 +35,7 @@ abstract class AbstractLoadingObserver<T> : Observer<T> {
         }
     }
 
-    private fun getDelegate(): LoadingDelegate = mLoadingDelegate ?: createDelegate()
+    protected fun getDelegate(): LoadingDelegate = mLoadingDelegate ?: createDelegate()
 
     protected abstract fun onNextResponse(t: T)
     protected abstract fun createDelegate(): LoadingDelegate

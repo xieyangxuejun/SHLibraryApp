@@ -1,4 +1,4 @@
-package com.foretree.shlibraryapp.base
+package com.foretree.shlibraryapp.base.delegate
 
 import android.content.Intent
 import android.os.Bundle

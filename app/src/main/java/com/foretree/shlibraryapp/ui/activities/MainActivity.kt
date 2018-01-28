@@ -1,19 +1,28 @@
 package com.foretree.shlibraryapp.ui.activities
 
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.Toolbar
-import android.util.Log
+import android.view.View
+import android.widget.SearchView
+import android.widget.Toast
 import com.foretree.shlibraryapp.R
 import com.foretree.shlibraryapp.base.BaseCompatActivity
-import com.foretree.shlibraryapp.data.ApiServer
-import com.foretree.shlibraryapp.data.SearchRequest
+import com.foretree.shlibraryapp.base.delegate.ToolbarDelegate
 import com.foretree.shlibraryapp.data.SearchResponse2
-import com.foretree.shlibraryapp.support.NetGo
-import com.foretree.shlibraryapp.ui.ToolbarDelegate
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import com.foretree.shlibraryapp.support.MainRequestHelper
+import com.foretree.shlibraryapp.support.observer.AppPagingObserver
+import com.foretree.shlibraryapp.ui.adapter.AbstractRecyclerAdapter
+import com.foretree.shlibraryapp.ui.adapter.SearchAdapter
+import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.contentView
 import org.jetbrains.anko.find
 
-class MainActivity : BaseCompatActivity(), ToolbarDelegate {
+class MainActivity : BaseCompatActivity(),
+        ToolbarDelegate, AbstractRecyclerAdapter.OnItemClickListener,
+        SearchView.OnQueryTextListener {
+
+    private lateinit var mRequest: MainRequestHelper
+    private lateinit var mAdapter: SearchAdapter
 
     override val toolbar by lazy { find<Toolbar>(R.id.toolbar) }
 
@@ -24,20 +33,54 @@ class MainActivity : BaseCompatActivity(), ToolbarDelegate {
     }
 
     override fun onAfterViews() {
-        val requestModel = SearchRequest.RequestModel(
-                "title",
-                "机器学习",
-                "10",
-                "0"
+        mRequest = MainRequestHelper(this)
+        rv_list.getRefreshLayout().isEnableRefresh = false
+        sv_search.setOnQueryTextListener(this)
+        loadSearchList("机器学习")
+    }
+
+    private fun loadSearchList(query: String) {
+        mRequest.requestSearch(
+                query,
+                rv_list.getPage(),
+                object : AppPagingObserver<SearchResponse2>(contentView, rv_list) {
+                    override fun onRefresh(response: SearchResponse2) {
+                        bindRecyclerView(response)
+                    }
+
+                    override fun getResponseList(response: SearchResponse2): List<Nothing> {
+                        return response.body.model.bookItems as List<Nothing>
+                    }
+                }
         )
-        val requestXml = SearchRequest()
-        requestXml.setBody(SearchRequest.RequestBody(requestModel))
-        val serverApi: ApiServer = NetGo.createByXml(ApiServer::class.java)
-        serverApi.searchBooks(requestXml)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ t: SearchResponse2? ->
-                    Log.d("xy==", "" + t.toString())
-                })
+    }
+
+    fun bindRecyclerView(response: SearchResponse2) {
+        mAdapter = SearchAdapter(response.body.model.bookItems)
+        mAdapter.setOnItemClickListener(this)
+        rv_list.getView().setAdapter(mAdapter)
+        rv_list.getView().setLayoutManager(LinearLayoutManager(this))
+    }
+
+
+    override fun onItemClick(adapter: AbstractRecyclerAdapter<*, *>, view: View, position: Int) {
+        if (adapter is SearchAdapter) {
+            val item = adapter.getItem(position)
+            Toast.makeText(this, item.title, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        if (query != null && !query.isEmpty()) {
+            rv_list.resetPage()
+            loadSearchList(query)
+            return true
+        }
+        return false
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        return false
     }
 }

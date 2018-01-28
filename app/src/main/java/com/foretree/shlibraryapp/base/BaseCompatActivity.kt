@@ -2,6 +2,7 @@ package com.foretree.shlibraryapp.base
 
 import android.content.Intent
 import android.os.Bundle
+import com.foretree.shlibraryapp.base.delegate.ISystemBarDelegate
 import com.foretree.shlibraryapp.base.system.NavigationBarCompat
 import com.foretree.shlibraryapp.base.system.StatusBarCompat
 

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SmartRecyclerView">
+        <attr name="startPage" format="integer" />
+        <attr name="pageCount" format="integer" />
+        <attr name="refreshEnabled" format="boolean" />
+        <attr name="loadMoreEnabled" format="boolean" />
+
+        <attr name="recyclerPaddingLeft" format="dimension" />
+        <attr name="recyclerPaddingTop" format="dimension" />
+        <attr name="recyclerPaddingRight" format="dimension" />
+        <attr name="recyclerPaddingBottom" format="dimension" />
+        <attr name="recyclerClipToPadding" format="boolean" />
+    </declare-styleable>
+</resources>

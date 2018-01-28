@@ -1,4 +1,4 @@
-package com.foretree.shlibraryapp.ui
+package com.foretree.shlibraryapp.base.delegate
 
 import android.support.v7.graphics.drawable.DrawerArrowDrawable
 import android.support.v7.widget.RecyclerView
